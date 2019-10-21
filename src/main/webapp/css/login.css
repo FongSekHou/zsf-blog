@@ -1,0 +1,269 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+input {
+    outline: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.content {
+    position: absolute;
+    width: 420px;
+    margin: auto;
+    padding-bottom: 40px;
+    text-align: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 1px 10px 30px -10px rgba(0, 0, 0, 0.5);
+    transition: 1s;
+}
+
+.logo {
+    position: absolute;
+    top: -75px;
+    right: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 150px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.logo img {
+    width: 80%;
+    height: 50%;
+}
+
+.heading {
+    font-size: 28px;
+    font-weight: 600;
+    padding: 50px 0 25px 0;
+    border-bottom: 1px solid #f0f0f0;
+    margin: 30px 0;
+}
+
+.form-group {
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+.form-control {
+    width: 300px;
+    height: 40px;
+    padding: 0 20px 0 45px;
+    font-size: 15px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.form-control::placeholder {
+    color: rgb(145, 153, 161);
+}
+
+.form-group>i {
+    position: absolute;
+    top: 8px;
+    left: 45px;
+    font-size: 16px;
+    color: #c8c8c8;
+    transition: 0.5s;
+}
+
+.checkcode {
+    z-index: 999;
+    position: absolute;
+    right: 27px;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 30px;
+    color: #dd9595;
+    cursor: pointer;
+}
+
+.checkcode img {
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.form-checkbox {
+    display: flex;
+    width: 365px;
+    justify-content: space-between;
+}
+
+.main-checkbox {
+    position: relative;
+}
+
+.form-checkbox label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    font-weight: 700;
+    background-color: #00cbba;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.main-checkbox label::after {
+    content: "";
+    width: 8px;
+    height: 4px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border: 3px solid #fff;
+    border-top: none;
+    border-right: none;
+    background: transparent;
+    opacity: 0;
+    transform: rotate(-45deg);
+}
+
+.input-check:checked+label::after {
+    opacity: 1;
+}
+
+.main-checkbox span {
+    margin-left: 7px;
+    padding-top: 5px;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: "微软雅黑", Microsoft YaHei UI;
+}
+
+.forget {
+    cursor: pointer;
+    color: #2b9fd0;
+    text-decoration: underline;
+}
+
+.input-check {
+    visibility: hidden;
+}
+
+.btn {
+    width: 365px;
+    padding: 10px 25px;
+    font-size: 14px;
+    color: #fff;
+    background: #00cbba;
+    border: none;
+    outline: 0;
+    border-radius: 20px;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: all 0.5s ease 0s;
+}
+
+.register {
+    margin-left: 28px;
+    font-size: 13px;
+}
+
+.register a {
+    color: #2b9fd0;
+    text-decoration: underline;
+}
+
+.register a:hover {
+    text-decoration: underline;
+}
+
+.return {
+    font-size: 13px;
+}
+
+.return a {
+    color: #2b9fd0;
+}
+
+.return a:hover {
+    text-decoration: underline;
+}
+/* 生日 */
+.title{
+    margin-left: 35px;
+    line-height: 40px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.layui-form-item{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.layui-input-block{
+    margin-left: 95px!important;
+}
+.layui-input{
+    width: 200px;
+    padding-left: 50px;
+    background: #f0f0f0;
+    border-radius: 20px!important;
+}
+.sex{
+    width: 152px;
+}
+.female{
+    margin-left: 50px;
+}
+/* 选择页面反转css */
+
+.page-login {
+    z-index: 999;
+    opacity: 1;
+}
+
+.page-register {
+    opacity: 0;
+    transform: perspective(0px) rotate3d(0, 1, 0, 180deg);
+}
+
+.login-reverse {
+    z-index: 0;
+    opacity: 0;
+    transform: perspective(0px) rotate3d(0, 1, 0, 180deg);
+}
+
+.login-return {
+    z-index: 999;
+    opacity: 1;
+    transform: perspective(0px) rotate3d(0, 1, 0, 0deg);
+}
+
+.register-reverse {
+    z-index: 0;
+    opacity: 0;
+    transform: perspective(0px) rotate3d(0, 1, 0, 180deg);
+}
+
+.register-return {
+    z-index: 999;
+    opacity: 1;
+    transform: perspective(0px) rotate3d(0, 1, 0, 360deg);
+}

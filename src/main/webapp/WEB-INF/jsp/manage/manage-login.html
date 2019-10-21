@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+    <link rel="icon" href="../img/icon.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/initialization.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <form class="content">
+            <div class="heading">管理员登录</div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="inputEmail3" placeholder="请输入你的邮箱/账号">
+                <i class="iconfont icon-yonghu"></i>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="inputPassword3" placeholder="密　码">
+                <i class="iconfont icon-mima"></i>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control inputcode" placeholder="验证码">
+                <span class="checkcode">
+                    <img src="../登录/p.jpg">
+                </span>
+                <i class="iconfont icon-yanzhengma"></i>
+            </div>
+            <div class="form-group form-checkbox">
+                <div class="main-checkbox">
+                    <input type="checkbox" class="input-check" value="" id="auto-login" name="check">
+                    <label for="auto-login"></label>
+                    <span>自动登录</span>
+                </div>
+                <div class="main-checkbox">
+                    <span class="forget">忘记密码</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn" onclick="validateCode()">登录</button>
+            </div>
+        </form>
+    </div>
+    <script src="../js/login.js"></script>
+</body>
+
+</html>

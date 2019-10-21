@@ -1,0 +1,94 @@
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    height: 70px;
+    line-height: 70px;
+    color: #ffffff;
+    background-color: #00cbba;
+}
+.title{
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: bold;
+}
+.user{
+    margin-right: 30px;
+    font-size: 18px;
+}
+.user i{
+    margin-left: 5px;
+    font-size: 20px;
+}
+.main{
+    display: flex;
+    height: 100%;
+}
+.main-left{
+    width: 250px;
+    height: 100%;
+    font-size: 18px;
+    text-align: center;
+    background-color: #ececec;
+    border-left: 2px solid #ececec;
+    border-right: 2px solid #ececec;
+}
+.nav-list{
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+}
+.nav-list i{
+    margin-right: 3px;
+    color:#afafaf;
+}
+.main-right{
+    margin: 0 20px;
+}
+.title-bar{
+    height: 60px;
+    line-height: 60px;
+    font-size: 16px;
+}
+.search-box{
+    display: flex;
+    height: 60px;
+    background-color: #ececec;    
+}
+.search-box form{
+    height: 60px;
+    margin-left: 20px;
+    line-height: 60px;
+}
+.search-input{
+    width: 208px;
+    height: 35px;
+    padding-left: 20px;
+    line-height: 35px;
+    border: 1px solid #afafaf78;
+    border-radius: 4px;
+}
+.search-input::-webkit-input-placeholder{
+    color: #d1d0cf;
+}
+.search-input:focus{
+    outline: 0;
+}
+.new-msg{
+    height: 35px;
+    padding: 0 15px;
+    margin: auto 0;
+    margin-left: 10px;
+    line-height: 35px;
+    font-size: 14px;
+    color: #ffffff;
+    background-color:#00cbba;
+    border: 0;
+    outline: 0;
+    border-radius: 4px;
+}
