@@ -3,6 +3,6 @@
 <configuration>
     <!-- 配置别名 -->
      <typeAliases>
-    	<package name="com.zsf.zsfblog.po.*"/>
+    	<!--<package name="com.zsf.zsfblog.po.*"/>-->
     </typeAliases>
 </configuration>

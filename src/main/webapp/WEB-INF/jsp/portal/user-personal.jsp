@@ -21,7 +21,14 @@
     <link rel="icon" href="${pageContext.request.contextPath}/img/logo.jpg" type="image/x-icon">
     <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 </head>
-
+<style>
+    html{
+        height: 100%;
+    }
+    body{
+        height: 100%;
+    }
+</style>
 <body>
 
 <div class="header">
@@ -31,9 +38,10 @@
     <ul class="header-nav">
         <li class="nav-list">主页</li>
         <li class="nav-list">收藏</li>
+        <li class="nav-list">消息通知</li>
         <li class="nav-list part"></li>
         <li class="nav-list"><a href="${pageContext.request.contextPath}/user/personal" style="color:#00cbba">个人中心</a></li>
-        <li class="nav-list writing"><a href="${pageContext.request.contextPath}/blog/edit">写博文</a></li>
+        <li class="nav-list writing"><a href="${pageContext.request.contextPath}/blog/edit">写博客</a></li>
         <li class="quit"><a href="${pageContext.request.contextPath}/user/logout">退出</a></li>
     </ul>
 </div>

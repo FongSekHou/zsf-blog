@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsf.zsfblog.mapper.BlogMapper">
+
+    <update id="updateBlogById" parameterType="com.zsf.zsfblog.po.Blog">
+        UPDATE t_blog
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null and title!=''">title=#{title},</if>
+            <if test="completetime!=null and completetime!=''">completetime=#{completetime},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="viewnum!=null">viewnum=#{viewnum},</if>
+            <if test="likenum!=null">likenum=#{likenum},</if>
+            <if test="commentnum!=null">commentnum=#{commentnum},</if>
+            <if test="collectnum!=null">collectnum=#{collectnum},</if>
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="blogtypeId!=null">blogtype_id=#{blogtypeId},</if>
+            <if test="content!=null and content!=''">content=#{content},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="title!=null and title!=''">
+                title,
+            </if>
+            <if test="completetime!=null and completetime!=''">
+                completetime,
+            </if>
+            <if test="status!=null">
+                status,
+            </if>
+            <if test="viewnum!=null">
+                viewnum,
+            </if>
+            <if test="likenum!=null">
+                likenum,
+            </if>
+            <if test="commentnum!=null">
+                commentnum,
+            </if>
+            <if test="collectnum!=null">
+                collectnum,
+            </if>
+            <if test="userId!=null">
+                user_id,
+            </if>
+            <if test="blogtypeId!=null">
+                blogtype_id,
+            </if>
+            <if test="content!=null and content!=''">
+                content,
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 对应的插入字段的值 -->
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="title!=null and title!=''">
+                #{title},
+            </if>
+            <if test="completetime!=null and completetime!=''">
+                #{completetime},
+            </if>
+            <if test="status!=null">
+                #{status},
+            </if>
+            <if test="viewnum!=null">
+                #{viewnum},
+            </if>
+            <if test="likenum!=null">
+                #{likenum},
+            </if>
+            <if test="commentnum!=null">
+                #{commentnum},
+            </if>
+            <if test="collectnum!=null">
+                #{collectnum},
+            </if>
+            <if test="userId!=null">
+                #{userId},
+            </if>
+            <if test="blogtypeId!=null">
+                #{blogtypeId},
+            </if>
+            <if test="content!=null and content!=''">
+                #{content},
+            </if>
+        </trim>
+    </sql>
+    <insert id="insertBlog" parameterType="com.zsf.zsfblog.po.Blog" useGeneratedKeys="true" keyProperty="id">
+        insert into t_blog(<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <select id="selectBlogById" resultType="com.zsf.zsfblog.po.Blog">
+        select id,title,content,completetime,status,viewnum,likenum,commentnum,collectnum,user_id userId,blogtype_id blogtypeId from t_blog where id=#{id}
+    </select>
+</mapper>
