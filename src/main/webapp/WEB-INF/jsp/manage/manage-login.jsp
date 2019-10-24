@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/initialization.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont.css">
+
 </head>
 
 <body>
@@ -29,11 +30,11 @@
         </div>
         <div class="heading">管理员登录</div>
         <div class="form-group">
-            <input type="text" class="form-control" name="username" placeholder="请输入你的用户名">
+            <input type="text" class="form-control" id="adminname" name="adminname" placeholder="请输入账号" required>
             <i class="iconfont icon-yonghu"></i>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="密　码">
+            <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required>
             <i class="iconfont icon-mima"></i>
         </div>
         <div class="form-group">
@@ -42,6 +43,7 @@
     </form>
 </div>
 <script src="${pageContext.request.contextPath}/js/login.js"></script>
+
 </body>
 
 </html>
