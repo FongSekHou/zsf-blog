@@ -34,16 +34,16 @@ CREATE TABLE `t_blogtype` (
 
 CREATE TABLE `t_blog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(45) NOT NULL,
-  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `completetime` char(19) NOT NULL COMMENT 'format is yyyy-MM-dd HH:mm:ss',
-  `status` int(11) NOT NULL COMMENT '0-回收站，1-草稿箱，2-已发表',
+  `title` varchar(45) DEFAULT NULL,
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `completetime` char(19) DEFAULT NULL COMMENT 'format is yyyy-MM-dd HH:mm:ss',
+  `status` int(11) DEFAULT NULL COMMENT '0-回收站，1-草稿箱，2-已发表',
   `viewnum` int(11) NOT NULL DEFAULT '0' COMMENT '浏览数',
   `likenum` int(11) NOT NULL DEFAULT '0' COMMENT '点赞数',
   `commentnum` int(11) NOT NULL DEFAULT '0' COMMENT '评论数',
   `collectnum` int(11) NOT NULL DEFAULT '0' COMMENT '收藏数',
   `user_id` int(11) NOT NULL,
-  `blogtype_id` int(11) NOT NULL,
+  `blogtype_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_blog_userid_user_id_idx` (`user_id`),
@@ -52,7 +52,7 @@ CREATE TABLE `t_blog` (
   CONSTRAINT `fk_blog_userid_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `t_img` (
+CREATE TABLE `t_blogimg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `imgpath` varchar(255) NOT NULL,
   `blog_id` int(11) DEFAULT NULL COMMENT '允许为空，若为空则对应博客编辑时中途退出或文章被删除',
@@ -145,3 +145,8 @@ CREATE TABLE `t_complaint` (
   CONSTRAINT `fk_complaint_commentid_comment_id` FOREIGN KEY (`comment_id`) REFERENCES `t_comment` (`id`),
   CONSTRAINT `fk_complaint_userid_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='记录举报的信息';
+
+INSERT INTO `zsfblog`.`t_blogtype` (`blogtypename`) VALUES ('java');
+INSERT INTO `zsfblog`.`t_blogtype` (`blogtypename`) VALUES ('javascript');
+INSERT INTO `zsfblog`.`t_blogtype` (`blogtypename`) VALUES ('python');
+INSERT INTO `zsfblog`.`t_blogtype` (`blogtypename`) VALUES ('其他');

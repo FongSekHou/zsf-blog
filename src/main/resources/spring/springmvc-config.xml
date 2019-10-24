@@ -11,42 +11,28 @@
 
     <context:component-scan base-package="com.zsf.zsfblog.controller" />
 
-    <!-- 启用注解功能,注册处理器映射器/处理器适配器 ,添加conversion-service属性,用于解决springmvc在接收日期类型参数时，如不做特殊处理，会出现400语法格式错误-->
-    <mvc:annotation-driven/>
-    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="converters">
-            <set>
-                <ref bean="dateConvert"/>
-            </set>
-        </property>
-    </bean>
-    <bean id="dateConvert" class="com.zsf.zsfblog.component.DateConvert"/>-->
+    <!-- 启用注解功能-->
+    <mvc:annotation-driven>
+        <!-- 指定http返回编码格式，不然返回ajax请求json会出现中文乱码 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                        <value>*/*;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!--配置静态资源的路径-->
     <mvc:resources location="/js/" mapping="/js/**" />
     <mvc:resources location="/css/" mapping="/css/**" />
     <mvc:resources location="/img/" mapping="/img/**" />
+    <mvc:resources location="/editor.md-master/" mapping="/editor.md-master/**" />
     <mvc:resources location="/layui/" mapping="/layui/**" />
-
-
-
-
-	<!--<mvc:annotation-driven></mvc:annotation-driven>-->
-
-     <!--字符串字符编码转换,spring mvc 3.x可以直接返回json，不用配这个bean
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-                    <property name="supportedMediaTypes">
-                        <list>
-                            <value>application/json;charset=UTF-8</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>-->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView"></property>
