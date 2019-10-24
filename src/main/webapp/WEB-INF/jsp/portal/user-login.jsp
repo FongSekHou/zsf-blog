@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
@@ -35,7 +35,7 @@
             <i class="iconfont icon-yonghu"></i>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="密　码">
+            <input type="password" class="form-control" name="password" placeholder="请输入你的密码">
             <i class="iconfont icon-mima"></i>
         </div>
         <div class="form-group">
@@ -54,7 +54,7 @@
             <i class="iconfont icon-yonghu"></i>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="密码">
+            <input type="password" class="form-control" name="password" placeholder="请输入你的密码">
             <i class="iconfont icon-mima"></i>
         </div>
         <div class="form-group">
@@ -75,11 +75,11 @@
             <div class="title">性别</div>
             <div class="layui-form-item">
                 <div class="sex layui-input-block">
-                    <input type="radio" name="gender" value="false" title="男">
+                    <input type="radio" name="gender" value="false" title="男" checked="">
                     <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i>
                         <div>男</div>
                     </div>
-                    <input type="radio" name="gender" value="true" title="女" checked="">
+                    <input type="radio" name="gender" value="true" title="女">
                     <div class="layui-unselect layui-form-radio layui-form-radioed"><i
                             class="layui-anim layui-icon layui-anim-scaleSpring"></i>
                         <div>女</div>

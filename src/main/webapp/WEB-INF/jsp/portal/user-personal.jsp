@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
@@ -32,30 +32,37 @@
         <li class="nav-list">主页</li>
         <li class="nav-list">收藏</li>
         <li class="nav-list part"></li>
-        <li class="nav-list click-style">个人中心</li>
-        <li class="nav-list">写博文</li>
-        <li class="quit">退出</li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/user/personal" style="color:#00cbba">个人中心</a></li>
+        <li class="nav-list writing"><a href="${pageContext.request.contextPath}/blog/edit">写博文</a></li>
+        <li class="quit"><a href="${pageContext.request.contextPath}/user/logout">退出</a></li>
     </ul>
-
 </div>
 <div class="container">
     <div class="content">
-        <form action="${pageContext.request.contextPath}/user/doUpdate" method="post" enctype="multipart/form-data">
+        <form class="layui-form layui-form-pane" action="${pageContext.request.contextPath}/user/updateInfo" method="post"
+              enctype="multipart/form-data">
             <div class="photo">
                 <input type="hidden" name="id" value="${user.id}">
+                <input type="hidden" name="username" value="${user.username}">
                 <img src="${pageContext.request.contextPath}${user.iconpath}">
                 <input type="file" title="点击修改头像" id="filechange" name="icon">
                 <label for="filechange">更改头像</label>
             </div>
             <div class="msg-list">
-                <div class="title">用户名</div>
-                <div class="layui-form">
-                    <div class="layui-form-item">
-                        <div class="user-name layui-input-block">
-                            <input type="text" name="username" required lay-verify="required"
-                                   placeholder="${user.username}"
-                                   autocomplete="off" class="information layui-input">
-                        </div>
+                <div class="title">原密码</div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" placeholder="请输入原密码"
+                               autocomplete="off" class="new-password information layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="msg-list">
+                <div class="title">新密码</div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="password" name="newPassword" placeholder="请输入新密码"
+                               autocomplete="off" class="new-password information layui-input">
                     </div>
                 </div>
             </div>
@@ -100,13 +107,23 @@
                 </div>
             </div>
         </form>
-    </div>
 
+    </div>
 </div>
 <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/personal.js"></script>
+<script src="${pageContext.request.contextPath}/js/common.js"></script>
 <script>
-    if ("${msg}" != "") {
+    if("${msg}"!=""){
         alert("${msg}");
+    }
+    var msg = getQueryVariable("msg");
+    if(msg!=undefined&&msg!=""){
+        if(msg=="modifysuccess"){
+            alert("修改成功");
+        }else if(msg=="passworderror"){
+            alert("原密码输入错误");
+        }
     }
     layui.use('form', function () {
     });
@@ -137,9 +154,6 @@
         }
     });
 </script>
-<script src="${pageContext.request.contextPath}/js/personal.js"></script>
-
-
 </body>
 
 </html>

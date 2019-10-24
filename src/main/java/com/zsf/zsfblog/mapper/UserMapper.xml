@@ -10,7 +10,7 @@
             <if test="password!=null and password!=''">
                 password,
             </if>
-            <if test="gender!=null and gender!=''">
+            <if test="gender!=null">
                 gender,
             </if>
             <if test="birthday!=null and birthday!=''">
@@ -19,7 +19,7 @@
             <if test="iconpath!=null and iconpath!=''">
                 iconpath,
             </if>
-            <if test="enabled!=null and enabled!=''">
+            <if test="enabled!=null">
                 enabled,
             </if>
             <if test="regtime!=null and regtime!=''">
@@ -37,7 +37,7 @@
             <if test="password!=null and password!=''">
                 #{password},
             </if>
-            <if test="gender!=null and gender!=''">
+            <if test="gender!=null">
                 #{gender},
             </if>
             <if test="birthday!=null and birthday!=''">
@@ -46,7 +46,7 @@
             <if test="iconpath!=null and iconpath!=''">
                 #{iconpath},
             </if>
-            <if test="enabled!=null and enabled!=''">
+            <if test="enabled!=null">
                 #{enabled},
             </if>
             <if test="regtime!=null and regtime!=''">
@@ -74,13 +74,13 @@
     <update id="updateUserById"  parameterType="com.zsf.zsfblog.po.User">
         UPDATE t_user
         <trim prefix="set" suffixOverrides=",">
-            <if test="username!=null">username=#{username},</if>
-            <if test="password!=null">password=#{password},</if>
+            <if test="username!=null and username!=''">username=#{username},</if>
+            <if test="password!=null and password!=''">password=#{password},</if>
             <if test="gender!=null">gender=#{gender},</if>
-            <if test="birthday!=null">birthday=#{birthday},</if>
-            <if test="iconpath!=null">iconpath=#{iconpath},</if>
+            <if test="birthday!=null and birthday!=''">birthday=#{birthday},</if>
+            <if test="iconpath!=null and iconpath!=''">iconpath=#{iconpath},</if>
             <if test="enabled!=null">enabled=#{enabled},</if>
-            <if test="regtime!=null">regtime=#{regtime},</if>
+            <if test="regtime!=null and regtime!=''">regtime=#{regtime},</if>
         </trim>
         WHERE id=#{id}
     </update>

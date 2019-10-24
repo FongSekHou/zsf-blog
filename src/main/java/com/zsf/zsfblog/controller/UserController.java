@@ -1,19 +1,15 @@
 package com.zsf.zsfblog.controller;
 
 import com.zsf.zsfblog.po.User;
-import com.zsf.zsfblog.po.UserPersonalVO;
 import com.zsf.zsfblog.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -72,36 +68,43 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping("/doUpdate")
-    public ModelAndView doUpdate(UserPersonalVO userVO,HttpSession session) throws IOException {
+    @RequestMapping("/updateInfo")
+    public ModelAndView updateInfo(HttpServletRequest request,User user,MultipartFile icon,String newPassword) throws IOException {
         ModelAndView modelAndView = new ModelAndView();
-        MultipartFile icon = userVO.getIcon();
-        if (icon != null) {
+        if(newPassword!=null&&!newPassword.equals("")){
+            User realUser = userService.getUserByUsernamePassword(user.getUsername(),user.getPassword());
+            if(realUser!=null){
+                user.setPassword(newPassword);
+            }else {
+                modelAndView.addObject("msg","passworderror");
+                modelAndView.setViewName("redirect:/user/personal");
+                return modelAndView;
+            }
+        }
+
+        if(icon!=null&&!icon.getOriginalFilename().equals("")){
             String originalFilename = icon.getOriginalFilename();
             String perfixName = UUID.randomUUID().toString();
             String fileName = perfixName + originalFilename.substring(originalFilename.lastIndexOf("."));
-            String path = "C:\\Users\\Fangxihao\\IdeaProjects\\zsf-Blog\\src\\main\\webapp\\icon\\" + fileName;
+            String path = "C:\\Users\\Fangxihao\\IdeaProjects\\zsf-Blog\\src\\main\\webapp\\images\\icon\\" + fileName;
             File file = new File(path);
             if (!file.getParentFile().exists()) {//找不到文件夹则新建文件夹
                 file.getParentFile().mkdirs();
             }
             icon.transferTo(file);
-            User user = new User();
-            BeanUtils.copyProperties(userVO, user);
-            user.setIconpath("/icon/" + fileName);
-            try {
-                userService.updateUser(user);
-                userService.getUserById(userVO.getId());
-                session.setAttribute("user",user);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-            modelAndView.addObject("msg", "修改成功");
-        } else {
-            modelAndView.addObject("msg", "请上传文件");
+            user.setIconpath("/images/icon/" + fileName);
         }
-        modelAndView.setViewName("portal/user-personal");
+        try {
+            userService.updateUser(user);
+            user = userService.getUserById(user.getId());
+            request.getSession().setAttribute("user",user);
+            request.setAttribute("iconpath",user.getIconpath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        modelAndView.addObject("msg", "modifysuccess");
+        modelAndView.setViewName("redirect:/user/personal");
         return modelAndView;
     }
 }

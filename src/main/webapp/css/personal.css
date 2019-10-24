@@ -46,23 +46,36 @@
     position: relative;
     display: inline-block;
     height: 30px;
-    padding: 5px 15px;
+    /*padding: 5px 15px;*/
     margin: auto 0;
     line-height: 30px;
-    border-radius: 8px;
-    color: #ffacc0;
+    /*border-radius: 8px;
+    color: #ffacc0;*/
     cursor: pointer;
 }
-.quit:hover{
+
+.quit>a{
+    padding: 5px 15px;
+    color: #ffacc0;
+    border-radius: 8px;
+}
+
+.quit>a:hover {
     color: #fff;
     background-color: #e83c65;
     box-shadow: 0px 2px 30px -10px rgba(70, 65, 65, 0.5);
 }
-.click-style{
+
+.writing {
     color: #fff;
     background-color: #00cbba;
     box-shadow: 0px 2px 30px -10px rgba(70, 65, 65, 0.5);
 }
+
+.writing>a {
+    color: #fff;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -75,7 +88,7 @@
 .content {
     width: 75%;
     height: 90%;
-    padding: 30px 0 0 90px;
+    padding: 30px 90px 0 90px;
     margin: 0 auto;
     background-color: #fff;
 }
@@ -95,7 +108,8 @@
     height: 120px;
     border: 1px solid #edeff1;
 }
-.photo>input{
+
+.photo>input {
     position: absolute;
     right: 0;
     width: 62px;
@@ -138,26 +152,94 @@
     line-height: 35px;
     background-color: #f5f5f5;
     border: 1px solid #d5d5d5;
-    border-radius: 10px!important;
+    border-radius: 10px !important;
 }
-.user-name{
+
+.user-name {
     margin-left: 0px;
     margin-top: 12px;
 }
-.data{
-   position: absolute;
-   top: 0;
-   left: -108px;
-   width: 272px;
+
+.data {
+    position: absolute;
+    top: 0;
+    left: 0;
+
 }
-.sex{
-    margin-left: 30px!important;
-    margin-top: 12px!important;
+.new-password{
+    position: absolute;
+    top: -10px;
 }
-.layui-input-block{
+.sex {
+    margin-left: 30px !important;
+    margin-top: 12px !important;
+}
+
+.layui-input-block {
     margin-top: 20px;
-    margin-left: 0;
+    margin-left: 0 !important;
 }
-.layui-btn{
+
+.layui-btn {
     background-color: #00c9b9;
+}
+
+
+/* 博客浏览 */
+.blog-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blog-title {
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.blog-msg>ul>li {
+    font-size: 14px;
+    color: #8a8989;
+}
+
+.li-style::before {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: 0;
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    background-color: #dcdcdc;
+}
+
+.li-rose {
+    padding: 0 7px;
+    font-weight: bold;
+    border: 1px solid #8a8989;
+    border-radius: 16px;
+}
+
+.blog-content {
+    width: 900px;
+    padding-top: 20px;
+    margin-top: 20px;
+    font-size: 15px;
+    border-top: 1px solid #cecdcd;
+}
+
+/* 写博文 */
+.blog-edit{
+    display: flex;
+    align-items: center;
+}
+.layui-layedit-iframe {
+    height: 600px;
+}
+.layui-form-item{
+    width: 600px;
+}
+.blog-choose{
+    margin-left: 10px;
+    margin-top: 6px;
 }
