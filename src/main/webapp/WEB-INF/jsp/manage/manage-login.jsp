@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/initialization.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layer/theme/default/layer.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/layer/layer.js"></script>
 
 </head>
 
@@ -28,7 +31,7 @@
         <div class="logo">
             <img src="${pageContext.request.contextPath}/img/logo.jpg">
         </div>
-        <div class="heading">管理员登录</div>
+        <div class="heading" id="test">管理员登录</div>
         <div class="form-group">
             <input type="text" class="form-control" id="adminname" name="adminname" placeholder="请输入账号" required>
             <i class="iconfont icon-yonghu"></i>
@@ -43,7 +46,12 @@
     </form>
 </div>
 <script src="${pageContext.request.contextPath}/js/login.js"></script>
+<script>
+    if("${MANAGE_LOGIN_MESSAGE}".length>0){
+        layer.msg("${MANAGE_LOGIN_MESSAGE}", {icon: 5, time: 2000,  offset: '280px' });
+    }
 
+</script>
 </body>
 
 </html>

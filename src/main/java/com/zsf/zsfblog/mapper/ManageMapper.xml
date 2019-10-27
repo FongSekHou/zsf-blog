@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsf.zsfblog.mapper.ManageMapper">
+
+    <select id="selectAdminByAdminnamePassword" resultType="admin">
+        SELECT * FROM t_admin
+        WHERE adminname =#{adminname}  AND password=#{password}
+    </select>
+
+    <select id="selectAllUserCount" resultType="int"  parameterType="map">
+      SELECT COUNT(*) FROM t_user
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'" />
+                and username like #{queryValue_bind}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUser" resultType="com.zsf.zsfblog.po.User" parameterType="map">
+        SELECT * FROM t_user
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'" />
+                and username like #{queryValue_bind}
+            </if>
+        </where>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <delete id="deleteUser">
+        DELETE FROM t_user WHERE id=#{uid} AND username=#{username}
+    </delete>
+
+    <update id="updateUserEnabled">
+        UPDATE t_user SET enabled=#{enabled} WHERE id=#{uid}
+    </update>
+</mapper>

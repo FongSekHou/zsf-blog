@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<%--<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,14 +18,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/initialization.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/manage.css">
-</head>
+</head>--%>
+<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont.css">--%>
 
-<body>
 <div class="header">
     <div class="title">ZSF博客管理平台</div>
-    <div class="user">人生有梦各自精彩<i class="iconfont icon-down"></i></div>
+    <div class="user">${ADMIN.adminname}<i class="iconfont icon-zhuxiaodenglu" style="font-size: 28px" title="注销" onclick="manageLogout()"></i></div>
 </div>
 
-</body>
-
-</html>

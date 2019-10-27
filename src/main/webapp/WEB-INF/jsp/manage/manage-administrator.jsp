@@ -17,15 +17,13 @@
     <link rel="icon" href="${pageContext.request.contextPath}/img/logo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/initialization.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont2.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/manage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 </head>
 
 <body>
-<div class="header">
-    <%@include file="manage-header.jsp" %>
-   <%-- <iframe src="${pageContext.request.contextPath}/bg-header.html" frameborder="0" class="iframe-header" scrolling="no"></iframe>--%>
-</div>
+<jsp:include page="manage-header.jsp"></jsp:include>
 <div class="main">
     <div class="main-left">
         <ul class="nav">
@@ -60,7 +58,7 @@
         <div class="title-bar">
             <div>首页</div>
             <i class="iconfont icon-jiantou"></i>
-            <span>栏目管理</span>
+            <a href="${pageContext.request.contextPath}/manage/administrator">管理员管理</a>
         </div>
         <div class="colum-manage">
             <div class="search-box">

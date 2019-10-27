@@ -17,14 +17,13 @@
     <link rel="icon" href="${pageContext.request.contextPath}/img/logo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/initialization.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont2.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/manage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 </head>
 
 <body>
-<div class="header">
-    <%@include file="manage-header.jsp" %>
-</div>
+<jsp:include page="manage-header.jsp"></jsp:include>
 <div class="main">
     <div class="main-left">
         <ul class="nav">
@@ -38,7 +37,7 @@
                     <i class="iconfont icon-yonghu"></i>用户管理
                 </a>
             </li>
-            <li class="nav-list">
+            <li class="nav-list" style="background-color: #fff;">
                 <a href="${pageContext.request.contextPath}/manage/column" target="_parent">
                     <i class="iconfont icon-nav"></i>栏目管理
                 </a>
@@ -48,7 +47,7 @@
                     <i class="iconfont icon-digital"></i>数据统计
                 </a>
             </li>
-            <li class="nav-list" style="background-color: #fff;">
+            <li class="nav-list" >
                 <a href="${pageContext.request.contextPath}/manage/administrator" target="_parent">
                     <i class="iconfont icon-guanliyuan"></i>管理员管理
                 </a>
@@ -59,7 +58,7 @@
         <div class="title-bar">
             <div>首页</div>
             <i class="iconfont icon-jiantou"></i>
-            <span>栏目管理</span>
+            <a href="${pageContext.request.contextPath}/manage/column">栏目管理</a>
         </div>
         <div class="colum-manage">
             <div class="search-box">

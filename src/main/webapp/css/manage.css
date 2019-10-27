@@ -40,12 +40,13 @@ body {
 
 .user {
     margin-right: 30px;
-    font-size: 18px;
+    font-size: 24px;
 }
 
 .user i {
-    margin-left: 5px;
-    font-size: 20px;
+    margin-left: 15px;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 
@@ -107,19 +108,23 @@ body {
     margin: 0 10px;
     color: #c7c9cc;
 }
-
-
+.title-bar a{
+    font-weight: bold;
+}
+.title-bar a:hover{
+    color: #00c9b9;
+}
 /* 搜索框 */
 
 .search-box {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 60px;
+    height: 70px;
     background-color: #ececec;
 }
 
-.search-box form {
+.search-box>div {
     position: relative;
     height: 60px;
     margin-left: 20px;
@@ -127,11 +132,11 @@ body {
 }
 
 .search-input {
-    width: 220px;
-    height: 35px;
+    width: 340px;
+    height: 40px;
     padding-left: 25px;
-    line-height: 35px;
-    border: 1px solid #afafaf78;
+    line-height: 40px;
+    border: 2px solid #00cbba;
     border-radius: 4px;
 }
 
@@ -156,16 +161,19 @@ body {
 .new-msg {
     display: inline-block;
     width: 80px;
-    height: 35px;
+    height: 40px;
     margin-top: 15px;
-    line-height: 35px;
+    line-height: 40px;
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     color: #ffffff;
     background-color: #00cbba;
     border-radius: 4px;
     border: 0;
     outline: 0;
+    cursor: pointer;
+    margin-left: -5px;
+
 }
 
 
@@ -294,16 +302,16 @@ body {
 }
 
 .user-search {
-    width: 320px;
-    height: 35px;
+    width: 400px;
+    height: 40px;
     padding-left: 20px;
     line-height: 35px;
-    border: 1px solid #afafaf78;
+    border: 2px solid #00cbba;
     border-radius: 4px;
 }
 
 .user-search::placeholder {
-    color: #d1d0cf;
+    /*color: #d1d0cf;*/
 }
 
 .user-content {
@@ -336,7 +344,8 @@ body {
 }
 
 .user-name {
-    font-size: 21px;
+    font-size: 26px;
+    font-weight: bold;
 }
 
 .user-delete {
@@ -348,7 +357,7 @@ body {
 }
 
 .user-delete i {
-    font-size: 18px;
+    font-size: 20px;
     color: #f5384a;
 }
 
@@ -377,10 +386,10 @@ body {
 }
 
 .nav-user-msg {
-    padding-left: 20px;
-    margin-top: 15px;
-    font-size: 15px;
-    color: #21a0ff;
+    padding-left: 40px;
+    margin-top: 40px;
+    font-size: 18px;
+    color: #00cbba;
 }
 
 .list-user-msg {
@@ -388,8 +397,11 @@ body {
     align-items: center;
     height: 34px;
     line-height: 34px;
+    font-size: 20px;
 }
-
+.goBlog:hover{
+    color: #00c9b9;
+}
 .user-state {
     position: relative;
     display: flex;

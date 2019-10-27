@@ -33,6 +33,8 @@
     <mvc:resources location="/img/" mapping="/img/**" />
     <mvc:resources location="/editor.md-master/" mapping="/editor.md-master/**" />
     <mvc:resources location="/layui/" mapping="/layui/**" />
+    <mvc:resources location="/layer/" mapping="/layer/**" />
+    <mvc:resources location="/icon/" mapping="/icon/**" />
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView"></property>
