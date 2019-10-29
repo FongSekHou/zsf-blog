@@ -1,6 +1,8 @@
 package com.zsf.zsfblog.controller;
 
 import com.zsf.zsfblog.po.Admin;
+import com.zsf.zsfblog.po.Blog;
+import com.zsf.zsfblog.po.BlogType;
 import com.zsf.zsfblog.po.ManagePage;
 import com.zsf.zsfblog.service.ManageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -71,6 +75,8 @@ public class ManageController {
     @RequestMapping("/deleteUser")
     @ResponseBody
     public Object deleteUser(Integer uid,String username) {
+        //先删除用户的文章
+        int deleteResult=manageService.deleteUserBlog(uid);
 
         int result=manageService.deleteUser(uid,username);
 
@@ -90,7 +96,7 @@ public class ManageController {
     //修改用户状态
     @RequestMapping("/getArticle")
     @ResponseBody
-    public Object article(@RequestParam(value ="pageNumber",defaultValue = "1") Integer pageNumber,@RequestParam(value = "selectType",defaultValue = "true") boolean selectType,String queryValue ) {
+    public Object article(@RequestParam(value ="pageNumber",defaultValue = "1") Integer pageNumber,@RequestParam(value = "selectType",defaultValue = "true",required = false) boolean selectType,String queryValue ) {
 
         //默认8条
         Integer pageSize=8;
@@ -122,4 +128,85 @@ public class ManageController {
         return result;
     }
 
+
+
+    @RequestMapping("/getColumn")
+    @ResponseBody
+    public Object column(@RequestParam(value ="pageNumber",defaultValue = "1") Integer pageNumber,String queryValue ) {
+
+        //默认8条
+        Integer pageSize=8;
+        Map<Object,Object> map=new HashMap<>();
+
+        if(!StringUtils.isEmpty(queryValue)){
+            map.put("queryValue",queryValue);
+        }
+        map.put("pageNumber",pageNumber);
+        map.put("pageSize", pageSize);
+
+        ManagePage page=manageService.getColumn(map);
+        System.out.println(page);
+        return page;
+    }
+
+
+    @RequestMapping("/deleteColumn")
+    @ResponseBody
+    public Object deleteColumn(@RequestParam("typeid") Integer[] typeid) {
+        int updateResult=manageService.updateBlogType(typeid);
+        int result=manageService.deleteColumn(typeid);
+        if(result!=typeid.length){
+            return 0;
+        }
+        return result;
+    }
+    @RequestMapping("/updateColumn")
+    @ResponseBody
+    public Object updateColumn(@RequestParam("typeid") Integer typeid,@RequestParam("blogtypename") String blogtypename) {
+
+        int result=manageService.updateColumn(typeid,blogtypename);
+        if(result>0){
+            return result;
+        }
+        return 0;
+    }
+    @RequestMapping("/addColumn")
+    @ResponseBody
+    public Object addColumn(@RequestParam("blogtypename") String blogtypename) {
+
+        int result=manageService.addColumn(blogtypename);
+        if(result>0){
+            return result;
+        }
+        return 0;
+    }
+    @RequestMapping("/getData")
+    @ResponseBody
+    public Object getData() {
+
+        Map<Object,Object> map=new HashMap<>();
+
+        List<BlogType> blogTypeList= manageService.selectAllBlogType();
+        List<Blog> blogList= manageService.selectAllBlog();
+
+        //类型名称
+        List<Object> typeName=new ArrayList<>();
+        //对应类型名称的个数
+        List<Object> counts=new ArrayList<>();
+        for (BlogType blogType:blogTypeList) {
+            int count=0;
+            for (Blog blog:blogList) {
+                if(blog.getBlogtypeId()==blogType.getId()){
+                    count++;
+                }
+            }
+            typeName.add(blogType.getBlogtypename());
+            counts.add(count);
+
+        }
+        map.put("typeName",typeName);
+        map.put("counts",counts);
+        System.out.println(map);
+        return map;
+    }
 }

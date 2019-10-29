@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/iconfont2.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/manage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layer/theme/default/layer.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/layer/layer.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
 </head>
 
 <body>
@@ -47,11 +51,7 @@
                     <i class="iconfont icon-digital"></i>数据统计
                 </a>
             </li>
-            <li class="nav-list">
-                <a href="${pageContext.request.contextPath}/manage/administrator" target="_parent">
-                    <i class="iconfont icon-guanliyuan"></i>管理员管理
-                </a>
-            </li>
+
         </ul>
     </div>
     <div class="main-right">
@@ -62,13 +62,78 @@
         </div>
         <div class="data-manager">
             <div class="data-show">
-                <img src="${pageContext.request.contextPath}/img/logo.jpg">
+
             </div>
         </div>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/js/manage.js"></script>
+<script>
+    $(function () {
+        
+        $.ajax({
+            url:"${pageContext.request.contextPath}/manage/getData",
+            type:"post",
+            success:function (data) {
+                var myChart = echarts.init($(".data-show")[0]);
+                option = {
+                    title: {
+                        text: '文章类型使用情况'
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '8%',
+                        containLabel: true
+                    },
+                    triggerEvent: true,
+                    color: ['#00cbba'],
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {
+                            type : 'shadow'
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : data.typeName,
+                            axisTick: {
+                                alignWithLabel: true
+                            },axisLabel:{
+                               /* formatter:function(value){
+                                    return value.split("").join("\n");
+                                },
 
+                                interval:0*/
+                            }
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'使用次数',
+                            type:'bar',
+                            barWidth: '60%',
+                            data:data.counts
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+            },error:function () {
+                layer.close(load);
+                layer.msg("网络繁忙 ！请重试",{icon:2,time:1500})
+            }
+        })
+
+
+
+    })
+</script>
 </body>
 
 </html>

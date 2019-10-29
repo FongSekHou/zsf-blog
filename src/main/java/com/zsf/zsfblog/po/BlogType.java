@@ -5,6 +5,8 @@ public class BlogType {
 
     private String blogtypename;
 
+
+
     public Integer getId() {
         return id;
     }
@@ -20,4 +22,5 @@ public class BlogType {
     public void setBlogtypename(String blogtypename) {
         this.blogtypename = blogtypename == null ? null : blogtypename.trim();
     }
+
 }

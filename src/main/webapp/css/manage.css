@@ -417,7 +417,10 @@ body {
 .ban {
     color: #000;
 }
-
+.updateInput{
+    width: 300px;
+    height: 36px;
+}
 .state-btn {
     display: inline-block;
     width: 18px;
@@ -484,7 +487,9 @@ body {
 
 .data-show {
     display: flex;
+    margin:0 auto;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    width: 1200px;
+    height: 500px;
 }

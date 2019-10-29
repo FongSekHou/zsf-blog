@@ -7,5 +7,7 @@
          <typeAlias type="com.zsf.zsfblog.po.Admin" alias="admin"></typeAlias>
          <typeAlias type="com.zsf.zsfblog.po.ManagePage" alias="managePage"></typeAlias>
          <typeAlias type="com.zsf.zsfblog.po.ArticleVO" alias="articleVO"></typeAlias>
+         <typeAlias type="com.zsf.zsfblog.po.BlogType" alias="BlogType"></typeAlias>
+         <typeAlias type="com.zsf.zsfblog.po.Blog" alias="Blog"></typeAlias>
     </typeAliases>
 </configuration>

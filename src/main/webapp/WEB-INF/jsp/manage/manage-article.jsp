@@ -53,11 +53,7 @@
                     <i class="iconfont icon-digital"></i>数据统计
                 </a>
             </li>
-            <li class="nav-list" >
-                <a href="${pageContext.request.contextPath}/manage/administrator" target="_parent">
-                    <i class="iconfont icon-guanliyuan"></i>管理员管理
-                </a>
-            </li>
+
         </ul>
     </div>
     <div class="main-right">
@@ -85,8 +81,8 @@
                     <td>作者</td>
                     <td>提交时间</td>
                     <td>所属分类</td>
-                    <td>收藏数</td>
-                    <td>浏览数</td>
+                    <td>收藏量</td>
+                    <td>浏览量</td>
                     <td>操作</td>
                 </tr>
                 </thead>
@@ -115,6 +111,7 @@
 
     var myData = {}
     var myDeleteData={}
+    var changeFlag=true;
     $(function () {
         $("#topCheck").click(function(){
 // 			var topCheck=$("#topCheck")[0].checked;
@@ -143,8 +140,8 @@
     function blogChange(pageNumber) {
         myData.pageNumber=pageNumber;
         console.log(myData.pageNumber)
-        var load=layer.load(2,{offset:'auto'});
-
+        // var load=layer.load(2,{offset:'auto'});
+        var load=layer.msg("正在加载数据",{icon:16,time:15055550})
 
         $.ajax({
             url:"${pageContext.request.contextPath}/manage/getArticle",
@@ -191,14 +188,19 @@
                     if(currentPage==page.totalPage){
                         foot+='<li class="disabled"><a href="javascript:void(0)">下一页</a></li>'
                     }else {
-                        foot += '<li><a href="javascript:void(0)" onclick="pageChange(' + (currentPage + 1) + ')">下一页</a></li>'
+                        foot += '<li><a href="javascript:void(0)" onclick="blogChange(' + (currentPage + 1) + ')">下一页</a></li>'
                     }
                     $('tbody').html(context)
                     $(".pagination").html(foot)
+                    changeFlag=true;
                 }else {
                     layer.msg("不存在当前查询的信息",{icon:5,time:2100})
                     //清空不存在的用户值
                     myData.queryValue=""
+                    if(changeFlag==true && myData.pageNumber>1){
+                        blogChange(myData.pageNumber-1)
+                        changeFlag=true;
+                    }
                 }
 
             },error:function () {
@@ -244,11 +246,13 @@
             data:myDeleteData.blogid,
             success:function(result){
                 if(result>0){
-                    layer.msg("删除成功 ！",{icon:1,time:1500})
                     blogChange(myData.pageNumber)
+                    layer.msg("删除成功 ！",{icon:1,time:1500})
                 }else{
                     layer.msg("删除失败 ！请重试",{icon:2,time:1500})
                 }
+            },error:function () {
+                layer.msg("网络繁忙 ！请重试",{icon:2,time:1500})
             }
 
         })

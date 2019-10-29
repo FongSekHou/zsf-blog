@@ -50,11 +50,7 @@
                     <i class="iconfont icon-digital"></i>数据统计
                 </a>
             </li>
-            <li class="nav-list" >
-                <a href="${pageContext.request.contextPath}/manage/administrator" target="_parent">
-                    <i class="iconfont icon-guanliyuan"></i>管理员管理
-                </a>
-            </li>
+
         </ul>
     </div>
     <div class="main-right clearfix">
@@ -71,10 +67,6 @@
             <div class="user-content">
 
 
-
-
-
-
             </div>
 
         </div>
@@ -88,9 +80,10 @@
 <script type="text/javascript">
 
     var myData = {}
+    var changeFlag=true;
     function pageChange(pageNumber){
         myData.pageNumber=pageNumber;
-        var load=layer.load(2,{offset:'auto'});
+        var load=layer.msg("正在加载数据",{icon:16,time:15055550})
         $.ajax({
             url:"${pageContext.request.contextPath}/manage/getUser",
             type:"post",
@@ -165,10 +158,15 @@
 
                     $('.user-content').html(context)
                     $(".pagination").html(foot)
+                    changeFlag=true;
                 }else{
                     layer.msg("不存在当前查询的用户",{icon:5,time:2100})
                     //清空不存在的用户值
                     myData.queryValue=""
+                    if(changeFlag==true && myData.pageNumber>1){
+                        pageChange(myData.pageNumber-1)
+                        changeFlag=true;
+                    }
                 }
             },error:function () {
                 layer.close(load);
@@ -183,7 +181,8 @@
             title:['提示'],
             icon:3//按钮
         }, function(){
-            var load=layer.load(2,{offset:'auto'});
+            // var load=layer.load(2,{offset:'auto'});
+            var load=layer.msg("正在删除数据",{icon:16,time:15055550})
             $.ajax({
                 url:"${pageContext.request.contextPath}/manage/deleteUser",
                 type:"post",
@@ -194,8 +193,8 @@
                 success:function (result) {
                     layer.close(load);
                     if(result>0){
-                        layer.msg("删除用户成功！",{icon:1,time:1500})
                         pageChange(myData.pageNumber)
+                        layer.msg("删除用户成功！",{icon:1,time:1500})
                     }else{
                         layer.msg("网络繁忙 ！请重试",{icon:2,time:1500})
                     }
@@ -214,6 +213,7 @@
             layer.msg("请输入查询内容",{icon:0,time:1500})
             return;
         }*/
+        changeFlag=false;
         myData.queryValue=searchValue;
         console.log(searchValue)
         pageChange(1)
@@ -231,11 +231,12 @@
         if (left=='2px') {
             //启用账号状态
             enabled=1
-            load=layer.load(2,{offset:'auto'})
+            load=layer.msg("正在修改数据",{icon:16,time:15055550})
         }else if (left='24px') {
             //禁用账号
             enabled=0
-            load=layer.load(2,{offset:'auto'})
+            // load=layer.load(2,{offset:'auto'})
+           load=layer.msg("正在修改数据",{icon:16,time:15055550})
         }else{
             layer.msg("网络繁忙 ！请重试",{icon:2,time:1500})
         }
