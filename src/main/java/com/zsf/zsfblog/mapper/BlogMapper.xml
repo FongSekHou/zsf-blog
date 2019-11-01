@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsf.zsfblog.mapper.BlogMapper">
+
+   <!-- Integer selectArticleCountByTitle(Map<Object, Object> map);
+
+    List<?> selectArticleByTitle(Map<Object, Object> map);
+
+    Integer selectArticleCountByUsername(Map<Object, Object> map);
+
+    List<?> selectArticleByUsername(Map<Object, Object> map);-->
+    <select id="selectArticleCountByTitle" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM t_blog,t_user,t_blogtype
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'"/>
+                AND t_blog.title LIKE #{queryValue_bind}
+            </if>
+            AND  t_blog.user_id=t_user.id AND t_blog.status=2 AND t_blog.blogtype_id=t_blogtype.id
+        </where>
+    </select>
+    <select id="selectArticleByTitle" parameterType="map" resultType="articleVO">
+        SELECT * FROM t_blog,t_user,t_blogtype
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'"/>
+                AND t_blog.title LIKE #{queryValue_bind}
+            </if>
+            AND  t_blog.user_id=t_user.id AND t_blog.status=2 AND t_blog.blogtype_id=t_blogtype.id
+        </where>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+<!--
+
+    Integer selectArticleCountByUsername(Map<Object, Object> map);
+
+    List<?> selectArticleByUsername(Map<Object, Object> map);-->
+    <select id="selectArticleCountByUsername" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM t_blog,t_user,t_blogtype
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'"/>
+                AND t_user.username LIKE #{queryValue_bind}
+            </if>
+            AND  t_blog.user_id=t_user.id AND t_blog.status=2 AND t_blog.blogtype_id=t_blogtype.id
+        </where>
+    </select>
+    <select id="selectArticleByUsername" parameterType="map" resultType="articleVO">
+        SELECT * FROM t_blog,t_user,t_blogtype
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'"/>
+                AND t_user.username LIKE #{queryValue_bind}
+            </if>
+            AND  t_blog.user_id=t_user.id AND t_blog.status=2 AND t_blog.blogtype_id=t_blogtype.id
+        </where>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+
+    <delete id="deleteBlog">
+        DELETE FROM t_blog WHERE id IN
+        <foreach collection="array"  item="blogid" close=")" open="(" separator=",">
+            #{blogid}
+        </foreach>
+    </delete>
+
+
+    <select id="selectColumnCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM t_blogtype
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'"/>
+                AND blogtypename LIKE #{queryValue_bind}
+            </if>
+        </where>
+    </select>
+    <select id="selectCoulumn" parameterType="map" resultType="blogType">
+        SELECT * FROM t_blogtype
+        <where>
+            <if test="queryValue!=null and queryValue!=''">
+                <bind name="queryValue_bind" value="'%'+queryValue+'%'"/>
+                AND blogtypename LIKE #{queryValue_bind}
+            </if>
+        </where>
+       LIMIT #{pageStart},#{pageSize}
+
+    </select>
+
+
+    <update id="deleteColumn">
+        DELETE FROM  t_blogtype  WHERE id IN
+        <foreach collection="array"  item="typeid" close=")" open="(" separator=",">
+            #{typeid}
+        </foreach>
+    </update>
+
+    <update id="updateColumn">
+        UPDATE  t_blogtype SET blogtypename=#{blogtypename} WHERE id =#{typeid}
+    </update>
+
+    <insert id="addColumn" parameterType="string">
+        INSERT INTO t_blogtype(blogtypename) VALUES(#{blogtypename})
+    </insert>
+
+    <delete id="deleteUserBlog" parameterType="int">
+        DELETE FROM t_blog WHERE user_id=#{uid}
+    </delete>
+
+    <select id="selectAllBlog"  resultMap="blogMap">
+        SELECT * FROM t_blog
+        WHERE status=2
+    </select>
+
+    <resultMap id="blogMap" type="blog">
+        <result property="userId" column="user_id" />
+        <result property="blogtypeId" column="blogtype_id" />
+    </resultMap>
+
+    <select id="selectBlogType" resultType="blogType">
+        SELECT * FROM t_blogtype
+    </select>
+
+    <update id="updateBlogType">
+        UPDATE  t_blog SET blogtype_id=(SELECT t_blogtype.id
+                                        FROM t_blogtype
+                                        WHERE t_blogtype.blogtypename='其他')
+        WHERE t_blog.blogtype_id in
+        <foreach collection="array"  item="typeid" close=")" open="(" separator=",">
+         #{typeid}
+        </foreach>
+    </update>
+</mapper>
