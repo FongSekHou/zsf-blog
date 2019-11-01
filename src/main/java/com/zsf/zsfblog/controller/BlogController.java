@@ -29,7 +29,16 @@ public class BlogController {
     private UserService userService;
 
     @RequestMapping("/{path}")
-    public String forward(@PathVariable("path") String path) {
+    public String forward(@PathVariable("path") String path,HttpServletRequest request) {
+        User user = (User)request.getSession().getAttribute("user");
+        if(user!=null){
+            Notice notice = userService.getLatestNotice(user.getId());
+            if(notice!=null){
+                if(notice.getRead()==false){
+                    request.setAttribute("tipstyle","header-tip");
+                }
+            }
+        }
         return "portal/blog-" + path ;
     }
 
@@ -38,14 +47,19 @@ public class BlogController {
      * @return
      */
     @RequestMapping("/edit")
-    public ModelAndView edit(HttpSession session){
-        Blog blog = new Blog();
-        User user = (User) session.getAttribute("user");
-        blog.setUserId(user.getId());
-        blogService.saveBlog(blog);
-        List<BlogType> blogTypes = blogService.listBlogType();
+    public ModelAndView edit(HttpSession session,Integer blogid){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("blogid",blog.getId());
+        Blog blog;
+        if(blogid!=null){
+            blog = blogService.getBlogById(blogid);
+        }else {
+            blog = new Blog();
+            User user = (User) session.getAttribute("user");
+            blog.setUserId(user.getId());
+            blogService.saveBlog(blog);
+        }
+        modelAndView.addObject("blog",blog);
+        List<BlogType> blogTypes = blogService.listBlogType();
         modelAndView.addObject("blogtypes",blogTypes);
         modelAndView.setViewName("portal/blog-edit");
         return modelAndView;
@@ -58,13 +72,12 @@ public class BlogController {
         ModelAndView modelAndView = new ModelAndView();
         try {
             blogService.updateBlog(blog);
-            modelAndView.addObject("msg","postblogsuccess");
+            modelAndView.addObject("msg","发表博客成功");
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        //实际应该回到主页，并且主页刷出最新博客
-        modelAndView.setViewName("redirect:/index.jsp");
+        modelAndView.setViewName("redirect:/user/index");
         return modelAndView;
     }
 
@@ -72,14 +85,32 @@ public class BlogController {
     public ModelAndView showBlog(HttpServletRequest request,Integer blogid){
         ModelAndView modelAndView = new ModelAndView();
         if (blogid==null){
-            String referer = request.getHeader("referer");//此处希望获得来源链接，到时返回到来时的页面
+            //此处希望获得来源链接，到时返回到来时的页面
+            String referer = request.getHeader("referer");
             modelAndView.addObject("msg","非法链接，无法打开文章");
-            modelAndView.setViewName("redirect:/index.jsp");
+            modelAndView.setViewName("redirect:/user/index");
             return modelAndView;
         }
         modelAndView.addObject("blogid",blogid);
         modelAndView.setViewName("redirect:/blog/show");
         return modelAndView;
+    }
+
+    @RequestMapping("/getBlog")
+    public @ResponseBody Object getBlog(HttpSession session,Integer blogid){
+        Blog blog = blogService.getBlogById(blogid);
+        blog.setViewnum(blog.getViewnum()+1);
+        blogService.updateBlogViewnum(blog.getId(),blog.getViewnum());
+        User author = userService.getUserById(blog.getUserId());
+        BlogShowVO blogShowVO = new BlogShowVO();
+        BeanUtils.copyProperties(blog,blogShowVO);
+        blogShowVO.setAuthorname(author.getUsername());
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            blogShowVO.setLikeRelation(userService.getLikeRelation(user.getId(),blogid));
+            blogShowVO.setCollectRelation(userService.getCollectRelation(user.getId(),blogid));
+        }
+        return blogShowVO;
     }
 
     /**
@@ -95,7 +126,7 @@ public class BlogController {
     @RequestMapping("/uploadImg")
     public @ResponseBody Object uploadImg(@RequestParam(value = "editormd-image-file", required = true) MultipartFile file,Integer blogid,HttpServletRequest request) throws IOException {
         UploadImgResponseVO imgVO = new UploadImgResponseVO();
-        if(file==null||file.getOriginalFilename().equals("")){
+        if(file==null||"".equals(file.getOriginalFilename())){
             imgVO.setSuccess(0);
             imgVO.setMessage("上传图片为空");
             return imgVO;
@@ -106,10 +137,12 @@ public class BlogController {
                 String fileName = perfixName + originalFilename.substring(originalFilename.lastIndexOf("."));
                 String path = "C:\\Users\\Fangxihao\\IdeaProjects\\zsf-Blog\\src\\main\\webapp\\images\\blogimg\\" + fileName;
                 File f = new File(path);
-                if (!f.getParentFile().exists()) {//找不到文件夹则新建文件夹
+                //找不到文件夹则新建文件夹
+                if (!f.getParentFile().exists()) {
                     f.getParentFile().mkdirs();
                 }
-                file.transferTo(f);//上传文件
+                //上传文件
+                file.transferTo(f);
                 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
                 String imgpath = basePath+"/images/blogimg/" + fileName;
                 BlogImg blogImg = new BlogImg();
@@ -130,13 +163,100 @@ public class BlogController {
         return imgVO;
     }
 
-    @RequestMapping("/getBlog")
-    public @ResponseBody Object getBlog(Integer blogid){
-        Blog blog = blogService.getBlogById(blogid);
-        User user = userService.getUserById(blog.getUserId());
-        BlogShowVO blogShowVO = new BlogShowVO();
-        BeanUtils.copyProperties(blog,blogShowVO);
-        blogShowVO.setAuthorname(user.getUsername());
-        return blogShowVO;
+    @RequestMapping("/queryBlogs")
+    public @ResponseBody Object queryBlogs(Integer currentPage,Integer blogtypeid,String condition){
+        if(blogtypeid==null||blogtypeid<0){
+            blogtypeid = null;
+        }
+        PageBean pageBean = blogService.listBlogInPage(currentPage,blogtypeid,condition);
+        return pageBean;
+    }
+
+    @RequestMapping("/loadPublish")
+    public @ResponseBody Object loadPublish(HttpSession session){
+        UserIndexVO userIndexVO = new UserIndexVO();
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            userIndexVO.setUser(user);
+            userIndexVO.setPostblognum(blogService.getUserPostBlogNum(user.getId()));
+            userIndexVO.setLikeblognum(blogService.getUserLikeBlogNum(user.getId()));
+            userIndexVO.setCollectblognum(blogService.getUserCollectBlogNum(user.getId()));
+        }
+        PageBean pageBean = blogService.listPublishBlogInPage(1,user.getId(),2,null);
+        userIndexVO.setPageBean(pageBean);
+        return userIndexVO;
+    }
+
+    @RequestMapping("/queryPublishBlogs")
+    public @ResponseBody Object queryPublishBlogs(@RequestParam(defaultValue = "1")Integer currentPage,@RequestParam(defaultValue = "2") Integer blogstatus,HttpSession session,String condition){
+        PageBean pageBean = blogService.listPublishBlogInPage(currentPage,((User)session.getAttribute("user")).getId(),blogstatus,condition);
+        return pageBean;
+    }
+
+    @RequestMapping("/deleteBlog")
+    public @ResponseBody Object deleteBlog(Integer blogid,Integer blogstatus){
+        try {
+            if(blogstatus==1||blogstatus==2){
+                blogService.updateBlogStatus(blogid);
+            }else {
+                blogService.removeBlog(blogid);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @RequestMapping("/loadLike")
+    public @ResponseBody Object loadLike(HttpSession session){
+        UserIndexVO userIndexVO = new UserIndexVO();
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            userIndexVO.setUser(user);
+            userIndexVO.setPostblognum(blogService.getUserPostBlogNum(user.getId()));
+            userIndexVO.setLikeblognum(blogService.getUserLikeBlogNum(user.getId()));
+            userIndexVO.setCollectblognum(blogService.getUserCollectBlogNum(user.getId()));
+        }
+        List<BlogType> blogTypes = blogService.listBlogType();
+        PageBean pageBean = blogService.listLikeBlogInPage(1,user.getId(),null,null);
+        userIndexVO.setBlogTypes(blogTypes);
+        userIndexVO.setPageBean(pageBean);
+        return userIndexVO;
+    }
+
+    @RequestMapping("/queryLikeBlogs")
+    public @ResponseBody Object queryLikeBlogs(@RequestParam(defaultValue = "1")Integer currentPage,HttpSession session,Integer blogtypeid,String condition){
+        if(blogtypeid==null||blogtypeid<0){
+            blogtypeid = null;
+        }
+        PageBean pageBean = blogService.listLikeBlogInPage(currentPage,((User)session.getAttribute("user")).getId(),blogtypeid,condition);
+        return pageBean;
+    }
+
+    @RequestMapping("/loadCollect")
+    public @ResponseBody Object loadCollect(HttpSession session){
+        UserIndexVO userIndexVO = new UserIndexVO();
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            userIndexVO.setUser(user);
+            userIndexVO.setPostblognum(blogService.getUserPostBlogNum(user.getId()));
+            userIndexVO.setLikeblognum(blogService.getUserLikeBlogNum(user.getId()));
+            userIndexVO.setCollectblognum(blogService.getUserCollectBlogNum(user.getId()));
+        }
+        List<BlogType> blogTypes = blogService.listBlogType();
+        PageBean pageBean = blogService.listCollectBlogInPage(1,user.getId(),null,null);
+        userIndexVO.setBlogTypes(blogTypes);
+        userIndexVO.setPageBean(pageBean);
+        return userIndexVO;
+    }
+
+    @RequestMapping("/queryCollectBlogs")
+    public @ResponseBody Object queryCollectBlogs(@RequestParam(defaultValue = "1")Integer currentPage,HttpSession session,Integer blogtypeid,String condition){
+        if(blogtypeid==null||blogtypeid<0){
+            blogtypeid = null;
+        }
+        PageBean pageBean = blogService.listCollectBlogInPage(currentPage,((User)session.getAttribute("user")).getId(),blogtypeid,condition);
+        return pageBean;
     }
 }

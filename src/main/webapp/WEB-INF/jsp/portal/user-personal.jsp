@@ -36,9 +36,8 @@
         <img src="${pageContext.request.contextPath}/img/logo.jpg">
     </div>
     <ul class="header-nav">
-        <li class="nav-list">主页</li>
-        <li class="nav-list">收藏</li>
-        <li class="nav-list">消息通知</li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/user/index">主页</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/user/notification"><div class="${tipstyle}"></div>消息通知</a></li>
         <li class="nav-list part"></li>
         <li class="nav-list"><a href="${pageContext.request.contextPath}/user/personal" style="color:#00cbba">个人中心</a></li>
         <li class="nav-list writing"><a href="${pageContext.request.contextPath}/blog/edit">写博客</a></li>
@@ -122,17 +121,14 @@
 <script src="${pageContext.request.contextPath}/js/personal.js"></script>
 <script src="${pageContext.request.contextPath}/js/common.js"></script>
 <script>
-    if("${msg}"!=""){
-        alert("${msg}");
-    }
-    var msg = getQueryVariable("msg");
-    if(msg!=undefined&&msg!=""){
-        if(msg=="modifysuccess"){
-            alert("修改成功");
-        }else if(msg=="passworderror"){
-            alert("原密码输入错误");
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var msg = getQueryVariable("msg");
+        if(msg!=undefined&&msg!=''){
+            layer.msg(decodeURIComponent(msg));
         }
-    }
+    });
+
     layui.use('form', function () {
     });
     layui.use(['form', 'layedit', 'laydate'], function () {

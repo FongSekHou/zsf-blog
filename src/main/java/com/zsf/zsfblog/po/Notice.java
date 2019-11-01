@@ -13,6 +13,8 @@ public class Notice {
 
     private Integer collectionId;
 
+    private String noticetime;
+
     public Integer getId() {
         return id;
     }
@@ -59,5 +61,13 @@ public class Notice {
 
     public void setCollectionId(Integer collectionId) {
         this.collectionId = collectionId;
+    }
+
+    public String getNoticetime() {
+        return noticetime;
+    }
+
+    public void setNoticetime(String noticetime) {
+        this.noticetime = noticetime;
     }
 }

@@ -7,4 +7,6 @@ import java.util.List;
 public interface BlogTypeMapper {
 
     List<BlogType> listBlogType();
+
+    BlogType selectBlogTypeById(Integer id);
 }

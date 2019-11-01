@@ -99,4 +99,165 @@
     <select id="selectBlogById" resultType="com.zsf.zsfblog.po.Blog">
         select id,title,content,completetime,status,viewnum,likenum,commentnum,collectnum,user_id userId,blogtype_id blogtypeId from t_blog where id=#{id}
     </select>
+
+    <select id="countBlogs" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_blog
+        <where>
+            <if test="blogtypeid!=null">
+                AND blogtype_id = #{blogtypeid}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND title LIKE CONCAT('%',#{condition},'%')
+            </if>
+            AND status = 2
+        </where>
+    </select>
+
+    <select id="selectBlogHaveLimit" resultType="com.zsf.zsfblog.po.BlogShowVO">
+        SELECT id,title,content,completetime,status,viewnum,likenum,commentnum,collectnum,user_id userId,blogtype_id blogtypeId FROM t_blog
+        <where>
+            <if test="blogtypeid!=null">
+                AND blogtype_id = #{blogtypeid}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND title LIKE CONCAT('%',#{condition},'%')
+            </if>
+            AND status = 2
+        </where>
+        ORDER BY completetime DESC
+        <if test="offset != null and number != null">
+            LIMIT ${offset},${number}
+        </if>
+    </select>
+
+    <select id="selectUserPostBlogNum" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_blog WHERE user_id = #{userid}
+    </select>
+
+    <select id="selectUserLikeBlogNum" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_notice tn,t_blog tb
+        <where>
+            <if test="userid!=null">
+                AND tn.user_id = #{userid}
+            </if>
+            <if test="blogtypeid!=null">
+                AND tb.blogtype_id = #{blogtypeid}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND tb.title LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+        AND tn.blog_id = tb.id
+        AND comment_id IS NULL AND collection_id IS NULL AND blog_id IS NOT NULL
+    </select>
+
+    <select id="selectUserCollectBlogNum" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_collection tc,t_blog tb
+        <where>
+            <if test="userid!=null">
+                AND tc.user_id = #{userid}
+            </if>
+            <if test="blogtypeid!=null">
+                AND tb.blogtype_id = #{blogtypeid}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND tb.title LIKE CONCAT('%',#{condition},'%')
+            </if>
+            AND tb.id = tc.blog_id;
+        </where>
+    </select>
+
+    <select id="countPublishBlogs" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_blog
+        <where>
+            <if test="userid!=null">
+                AND user_id = #{userid}
+            </if>
+            <if test="status!=null">
+                AND status = #{status}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND title LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPublishBlogHaveLimit" resultType="com.zsf.zsfblog.po.BlogShowVO">
+        SELECT id,title,content,completetime,status,viewnum,likenum,commentnum,collectnum,user_id userId,blogtype_id blogtypeId FROM t_blog
+        <where>
+            <if test="userid!=null">
+                AND user_id = #{userid}
+            </if>
+            <if test="status!=null">
+                AND status = #{status}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND title LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+        ORDER BY completetime DESC
+        <if test="offset != null and number != null">
+            LIMIT ${offset},${number}
+        </if>
+    </select>
+
+    <delete id="deleteBlogById">
+        DELETE FROM t_blog WHERE id=#{id}
+    </delete>
+
+    <update id="updateBlogStatus">
+        UPDATE t_blog SET status=0 WHERE id=#{id}
+    </update>
+
+    <update id="updateBlogViewnum">
+        UPDATE t_blog SET viewnum=#{viewnum} WHERE id=#{id}
+    </update>
+    <update id="updateBlogLikenum">
+        UPDATE t_blog SET likenum=#{likenum} WHERE id=#{id}
+    </update>
+    <update id="updateBlogCollectnum">
+        UPDATE t_blog SET collectnum=#{collectnum} WHERE id=#{id}
+    </update>
+
+    <select id="selectLikeBlogHaveLimit" resultType="com.zsf.zsfblog.po.BlogShowVO">
+        SELECT tb.id,tb.title,tb.content,tb.completetime,tb.status,tb.viewnum,tb.likenum,tb.commentnum,tb.collectnum,tb.user_id userId,tb.blogtype_id blogtypeId FROM t_blog tb,t_notice tn
+        <where>
+            <if test="userid!=null">
+                AND tn.user_id = #{userid}
+            </if>
+            <if test="blogtypeid!=null">
+                AND tb.blogtype_id = #{blogtypeid}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND tb.title LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+        AND tn.blog_id = tb.id
+        AND tn.comment_id IS NULL AND tn.collection_id IS NULL AND tn.blog_id IS NOT NULL
+        ORDER BY tb.completetime DESC
+        <if test="offset != null and number != null">
+            LIMIT ${offset},${number}
+        </if>
+    </select>
+
+    <select id="selectCollectBlogHaveLimit" resultType="com.zsf.zsfblog.po.BlogShowVO">
+        SELECT tb.id,tb.title,tb.content,tb.completetime,tb.status,tb.viewnum,tb.likenum,tb.commentnum,tb.collectnum,tb.user_id userId,tb.blogtype_id blogtypeId
+         FROM zsfblog.t_blog tb,zsfblog.t_collection tc
+        <where>
+            <if test="userid!=null">
+                AND tc.user_id = #{userid}
+            </if>
+            <if test="blogtypeid!=null">
+                AND tb.blogtype_id = #{blogtypeid}
+            </if>
+            <if test="condition!=null and condition!=''">
+                AND tb.title LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+        AND tb.id = tc.blog_id
+        ORDER BY tb.completetime DESC
+        <if test="offset != null and number != null">
+            LIMIT ${offset},${number}
+        </if>
+    </select>
 </mapper>

@@ -29,4 +29,7 @@
         values(<include refid="values"/>)
     </insert>
 
+    <delete id="deleteBlogImgByBlogId">
+        DELETE FROM t_blogimg WHERE blog_id = #{blogid}
+    </delete>
 </mapper>

@@ -50,10 +50,10 @@
         </property>
     </bean> -->
 
-    <!-- 声明登录拦截器
+    <!-- 声明登录拦截器-->
     <mvc:interceptors>
-        <bean id="loginInterceptor" class="com.atguigu.atcrowdfunding.interceptor.LoginInterceptor"></bean>
-    </mvc:interceptors>-->
+        <bean id="loginInterceptor" class="com.zsf.zsfblog.interceptor.LoginInterceptor"></bean>
+    </mvc:interceptors>
 
     <!-- 文件上传的配置 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="UTF-8">

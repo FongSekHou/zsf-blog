@@ -5,4 +5,7 @@
     <select id="listBlogType" resultType="com.zsf.zsfblog.po.BlogType">
         SELECT * FROM t_blogtype;
     </select>
+    <select id="selectBlogTypeById" resultType="com.zsf.zsfblog.po.BlogType">
+        SELECT * FROM t_blogtype WHERE id=#{id};
+    </select>
 </mapper>

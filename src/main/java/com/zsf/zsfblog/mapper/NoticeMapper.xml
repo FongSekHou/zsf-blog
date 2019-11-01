@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsf.zsfblog.mapper.NoticeMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="read!=null">
+                `read`,
+            </if>
+            <if test="userId!=null">
+                user_id,
+            </if>
+            <if test="commentId!=null">
+                comment_id,
+            </if>
+            <if test="blogId!=null">
+                blog_id,
+            </if>
+            <if test="collectionId!=null">
+                collection_id,
+            </if>
+            <if test="noticetime!=null and noticetime!=''">
+                noticetime,
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 对应的插入字段的值 -->
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="read!=null">
+                #{read},
+            </if>
+            <if test="userId!=null">
+                #{userId},
+            </if>
+            <if test="commentId!=null">
+                #{commentId},
+            </if>
+            <if test="blogId!=null">
+                #{blogId},
+            </if>
+            <if test="collectionId!=null">
+                #{collectionId},
+            </if>
+            <if test="noticetime!=null and noticetime!=''">
+                #{noticetime},
+            </if>
+        </trim>
+    </sql>
+    <insert id="insertNotice" parameterType="com.zsf.zsfblog.po.Notice" useGeneratedKeys="true" keyProperty="id">
+        insert into t_notice(<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <select id="selectLikeNoticeByUseridBlogid" resultType="com.zsf.zsfblog.po.Notice">
+        SELECT `read`,user_id userId,comment_id commentId,blog_id blogId,collection_id collectionId,noticetime FROM t_notice
+        WHERE user_id = #{userid} and blog_id = #{blogid} AND comment_id is null and collection_id is null
+    </select>
+
+    <delete id="deleteNotice">
+        DELETE FROM t_notice
+        <where>
+            <if test="userid!=null">
+                AND user_id = #{userid}
+            </if>
+            <if test="blogid!=null">
+                AND blog_id = #{blogid}
+            </if>
+            <if test="collectionid!=null">
+                AND collection_id = #{collectionid}
+            </if>
+            <if test="commentid!=null">
+                AND comment_id = #{commentid}
+            </if>
+        </where>
+    </delete>
+
+    <select id="listNoticeInPage" resultType="com.zsf.zsfblog.po.Notice">
+        SELECT tn.id,tn.`read`,tn.user_id userId,tn.comment_id commentId,tn.blog_id blogId,tn.collection_id collectionId,tn.noticetime FROM t_notice tn,t_blog tb
+        WHERE tb.user_id = #{userid} AND tb.id = tn.blog_id
+        ORDER BY noticetime DESC
+        <if test="offset != null and number != null">
+            LIMIT ${offset},${number}
+        </if>
+    </select>
+    <select id="selectNoticeNumByUserid" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_notice tn,t_blog tb WHERE tb.user_id = #{userid} AND tb.id = tn.blog_id
+    </select>
+
+    <select id="selectLatestNotice" resultType="com.zsf.zsfblog.po.Notice">
+        SELECT tn.`read`,tn.user_id userId,tn.comment_id commentId,tn.blog_id blogId,tn.collection_id collectionId,tn.noticetime FROM t_notice tn,t_blog tb
+        WHERE tb.user_id = #{userid} AND tb.id = tn.blog_id
+        ORDER BY noticetime DESC LIMIT 1
+    </select>
+    <update id="updateRead">
+        UPDATE t_notice SET `read` = true WHERE id=#{id}
+    </update>
+</mapper>

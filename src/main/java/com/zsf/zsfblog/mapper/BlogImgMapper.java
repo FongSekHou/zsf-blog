@@ -8,4 +8,6 @@ public interface BlogImgMapper {
 
     int insertBlogImg(BlogImg blogImg);
 
+    int deleteBlogImgByBlogId(Integer blogid);
+
 }
