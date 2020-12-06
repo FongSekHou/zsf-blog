@@ -8,10 +8,10 @@ registerBtn.addEventListener("click",function() {
     login.classList.add("login-reverse");
     register.classList.remove("register-reverse");
     register.classList.add("register-return");
-})
+});
 returnBtn.addEventListener("click",function() {
     login.classList.remove("login-reverse");
     login.classList.add("login-ruturn");
     register.classList.remove("register-return");
     register.classList.add("register-reverse");
-})
+});

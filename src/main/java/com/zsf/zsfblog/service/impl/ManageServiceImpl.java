@@ -58,18 +58,18 @@ public class ManageServiceImpl implements ManageService {
 
         ManagePage managePage=new ManagePage((Integer) map.get("pageNumber"),(Integer) map.get("pageSize"));
         map.put("pageStart", managePage.getPageStart());
-        System.out.println("map.get(pageStart)="+(Integer) map.get("pageStart"));
+
         //true为按title文章名查询，false为作者username查询
         if((Boolean) map.get("selectType")){
-            System.out.println("title");
+
             int count = blogMapper.selectArticleCountByTitle(map);
-            System.out.println("count"+count);
+
             managePage.setPageCount(count);
             managePage.setData(blogMapper.selectArticleByTitle(map));
         }else{
-            System.out.println("username");
+
             int count = blogMapper.selectArticleCountByUsername(map);
-            System.out.println("count"+count);
+
             managePage.setPageCount(count);
             managePage.setData(blogMapper.selectArticleByUsername(map));
             //显示分页按钮的个数

@@ -110,12 +110,17 @@
     });
 </script>
 <script>
-    if ("${msg}" != "") {
-        alert("${msg}");
-    }
-    if ("${usernameError}" != "") {
-        alert("${usernameError}");
-    }
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var msg = getQueryVariable("msg");
+        if(msg!=undefined&&msg!=''){
+            layer.msg(decodeURIComponent(msg));
+        }
+        if("${msg}"!=""){
+            layer.msg("${msg}");
+        }
+    });
+
 </script>
 <script src="${pageContext.request.contextPath}/js/login.js"></script>
 <script src="${pageContext.request.contextPath}/js/common.js"></script>

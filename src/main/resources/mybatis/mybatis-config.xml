@@ -3,7 +3,6 @@
 <configuration>
     <!-- 配置别名 -->
      <typeAliases>
-<!--    	<package name="com.zsf.zsfblog.po"/>-->
          <typeAlias type="com.zsf.zsfblog.po.Admin" alias="admin"></typeAlias>
          <typeAlias type="com.zsf.zsfblog.po.ManagePage" alias="managePage"></typeAlias>
          <typeAlias type="com.zsf.zsfblog.po.ArticleVO" alias="articleVO"></typeAlias>

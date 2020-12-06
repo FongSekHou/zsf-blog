@@ -19,14 +19,16 @@ public class UserServiceTest {
 
     @Test
     public void testSaveUser(){
-        User user = new User();
-        user.setUsername("springmvc");
-        user.setPassword("123");
-        user.setBirthday("1999-09-19");
-        user.setGender(false);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        user.setEnabled(true);
-        user.setRegtime(sdf.format(new Date()));
-        userService.saveUser(user);
+        for(int i=0;i<200;i++){
+            User user = new User();
+            user.setUsername("testuser"+i);
+            user.setPassword("123");
+            user.setBirthday("1999-09-22");
+            user.setGender(false);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            user.setEnabled(true);
+            user.setRegtime(sdf.format(new Date()));
+            userService.saveUser(user);
+        }
     }
 }

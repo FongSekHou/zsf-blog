@@ -67,7 +67,7 @@ public class ManageController {
     @ResponseBody
     public Object getUser(@RequestParam(value ="pageNumber",defaultValue = "1") Integer pageNumber,String queryValue) {
         //默认显示9个
-        int pageSize=9;
+        int pageSize=8;
         ManagePage page=manageService.getUser(pageNumber,pageSize,queryValue);
         return page;
     }
@@ -101,9 +101,7 @@ public class ManageController {
         //默认8条
         Integer pageSize=8;
         Map<Object,Object> map=new HashMap<>();
-        System.out.println("pagenumber"+pageNumber);
 
-        System.out.println("queryValue"+queryValue);
         if(!StringUtils.isEmpty(queryValue)){
             map.put("queryValue",queryValue);
         }
@@ -112,7 +110,7 @@ public class ManageController {
         map.put("pageSize", pageSize);
 
         ManagePage page=manageService.getArticle(map);
-        System.out.println(page);
+
         return page;
     }
 
@@ -120,7 +118,7 @@ public class ManageController {
     @RequestMapping("/deleteArticle")
     @ResponseBody
     public Object deleteArticle(@RequestParam("blogid") Integer[] blogid) {
-        System.out.println(blogid.length+"长度");
+
         int result=manageService.deleteArticle(blogid);
         if(result!=blogid.length){
             return 0;
@@ -145,7 +143,7 @@ public class ManageController {
         map.put("pageSize", pageSize);
 
         ManagePage page=manageService.getColumn(map);
-        System.out.println(page);
+
         return page;
     }
 
@@ -196,7 +194,7 @@ public class ManageController {
         for (BlogType blogType:blogTypeList) {
             int count=0;
             for (Blog blog:blogList) {
-                if(blog.getBlogtypeId()==blogType.getId()){
+                if(blog.getBlogtypeId().equals(blogType.getId())){
                     count++;
                 }
             }
@@ -206,7 +204,7 @@ public class ManageController {
         }
         map.put("typeName",typeName);
         map.put("counts",counts);
-        System.out.println(map);
+
         return map;
     }
 }

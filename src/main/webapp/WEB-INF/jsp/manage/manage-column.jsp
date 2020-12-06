@@ -105,14 +105,14 @@
       $("#topCheck").click(function(){
             var topCheckStatus=this.checked;
             $("tbody tr td input[type='checkbox']").prop("checked",topCheckStatus)
-        })
+        });
         pageChange(1)
-    })
+    });
     function pageChange(pageNumber) {
         myData.pageNumber=pageNumber;
-        console.log(myData.pageNumber)
+        console.log(myData.pageNumber);
         // var load=layer.load(2,{offset:'auto'});
-        var load=layer.msg("正在加载数据.。。",{icon:16,time:15055550})
+        var load=layer.msg("正在加载数据.。。",{icon:16,time:15055550});
         $.ajax({
             url:"${pageContext.request.contextPath}/manage/getColumn",
             type:"post",
@@ -123,16 +123,16 @@
                     //内容
                     var context="";
                     //页码
-                    var foot=""
+                    var foot="";
                     var currentPage=page.pageNumber;
                     $.each(page.data,function(i,n){
-                        context+='<tr>'
-                        context+='<td><input type="checkbox"  value="'+n.id+'"></td>'
-                        context+='<td>'+n.blogtypename+'</td>'
-                        context+='<td><a class="btn btn-primary btn-xs" onclick="updateType('+n.id+',\''+n.blogtypename+'\')">修改</a>&nbsp;<a class="btn btn-danger btn-xs" onclick="deleteType('+n.id+',\''+n.blogtypename+'\')">删除</a></td>'
+                        context+='<tr>';
+                        context+='<td><input type="checkbox"  value="'+n.id+'"></td>';
+                        context+='<td>'+n.blogtypename+'</td>';
+                        context+='<td><a class="btn btn-primary btn-xs" onclick="updateType('+n.id+',\''+n.blogtypename+'\')">修改</a>&nbsp;<a class="btn btn-danger btn-xs" onclick="deleteType('+n.id+',\''+n.blogtypename+'\')">删除</a></td>';
                         context+='</tr>'
-                    })
-                    foot='<li><a href="javascript:void(0)" onclick="pageChange(1)">首页</a></li>'
+                    });
+                    foot='<li><a href="javascript:void(0)" onclick="pageChange(1)">首页</a></li>';
                     if(currentPage==1){
                         foot+='<li class="disabled"><a href="javascript:void(0)">上一页</a></li>'
                     }else{
@@ -147,21 +147,21 @@
                             foot+='<li><a href="javascript:void(0)" onclick="pageChange('+n2+')">'+n2+'</a></li>'
                         }
 
-                    })
+                    });
                     if(currentPage==page.totalPage){
                         foot+='<li class="disabled"><a href="javascript:void(0)">下一页</a></li>'
                     }else {
                         foot += '<li><a href="javascript:void(0)" onclick="pageChange(' + (currentPage + 1) + ')">下一页</a></li>'
                     }
-                    $('tbody').html(context)
-                    $(".pagination").html(foot)
+                    $('tbody').html(context);
+                    $(".pagination").html(foot);
                     changeFlag=true;
                 }else {
-                    layer.msg("不存在当前查询的信息",{icon:5,time:2100})
+                    layer.msg("不存在当前查询的信息",{icon:5,time:2100});
                     //清空不存在的用户值
-                    myData.queryValue=""
+                    myData.queryValue="";
                     if(changeFlag==true && myData.pageNumber>1){
-                        pageChange(myData.pageNumber-1)
+                        pageChange(myData.pageNumber-1);
                         changeFlag=true;
                     }
                 }
@@ -188,16 +188,16 @@
     function deleteBatch(){
         var allCheck=$("tbody tr td input:checked");
         if(allCheck.length==0){
-            layer.msg("请选择要删除的数据 ！",{icon:2,time:1500})
+            layer.msg("请选择要删除的数据 ！",{icon:2,time:1500});
             return false;
         }
-        var ids=""
+        var ids="";
         $.each(allCheck,function(i,n){
             if(i!=0){
                 ids+="&"
             }
             ids+="typeid="+n.value;
-        })
+        });
         layer.confirm('确定删除这【 '+allCheck.length+' 】条数据?', {btn: ['确定','取消']}, function(){
             myDeleteData.typeid=ids;
             deleteAjax();
@@ -213,7 +213,7 @@
             data:myDeleteData.typeid,
             success:function(result){
                 if(result>0){
-                    pageChange(myData.pageNumber)
+                    pageChange(myData.pageNumber);
                     layer.msg("删除成功 ！",{icon:1,time:1500})
                 }else{
                     layer.msg("删除失败 ！请重试",{icon:2,time:1500})
@@ -228,7 +228,7 @@
         layer.prompt({title:"新增栏目"},function(val, index){
             layer.close(index);
             if(val.length==0){
-                layer.msg("请输入新增栏目名称！",{icon:2,time:1500})
+                layer.msg("请输入新增栏目名称！",{icon:2,time:1500});
                 return;
             }
             $.ajax({
@@ -239,7 +239,7 @@
                 },
                 success:function(result){
                     if(result>0){
-                        pageChange(myData.pageNumber)
+                        pageChange(myData.pageNumber);
                         layer.msg("新增成功 ！",{icon:1,time:1500})
                     }else{
                         layer.msg("新增失败 ！请重试",{icon:2,time:1500})
@@ -256,7 +256,7 @@
         layer.prompt({title:"修改名称",value:name},function(val, index){
             layer.close(index);
             if(val==name){
-                layer.msg("修改的名称和原名称一致，请重新输入！",{icon:2,time:1500})
+                layer.msg("修改的名称和原名称一致，请重新输入！",{icon:2,time:1500});
                 return;
             }
             $.ajax({
@@ -269,7 +269,7 @@
                 },
                 success:function(result){
                     if(result>0){
-                        layer.msg("修改成功 ！",{icon:1,time:1500})
+                        layer.msg("修改成功 ！",{icon:1,time:1500});
                         pageChange(myData.pageNumber)
                     }else{
                         layer.msg("修改失败 ！请重试",{icon:2,time:1500})

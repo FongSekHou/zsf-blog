@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsf.zsfblog.mapper.CollectionMapper">
+
+    <insert id="insertCollection" parameterType="com.zsf.zsfblog.po.Collection" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_collection(user_id, blog_id) VALUES (#{userId},#{blogId})
+    </insert>
+    <select id="getCollectionByUserIdAndBlogId" resultType="com.zsf.zsfblog.po.Collection">
+        SELECT id,user_id userId,blog_id blogId FROM t_collection WHERE user_id = #{userid} AND blog_id = #{blogid}
+    </select>
+    <delete id="deleteCollection">
+        DELETE FROM t_collection WHERE user_id = #{userid} AND blog_id = #{blogid}
+    </delete>
+</mapper>

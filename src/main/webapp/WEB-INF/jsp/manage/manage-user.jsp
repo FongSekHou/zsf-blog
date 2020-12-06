@@ -79,11 +79,11 @@
 <script src="${pageContext.request.contextPath}/js/manage.js"></script>
 <script type="text/javascript">
 
-    var myData = {}
+    var myData = {};
     var changeFlag=true;
     function pageChange(pageNumber){
         myData.pageNumber=pageNumber;
-        var load=layer.msg("正在加载数据",{icon:16,time:15055550})
+        var load=layer.msg("正在加载数据",{icon:16,time:15055550});
         $.ajax({
             url:"${pageContext.request.contextPath}/manage/getUser",
             type:"post",
@@ -91,38 +91,38 @@
             success:function (page) {
                 layer.close(load);
                 if(page.data.length>0){
-                    var currentPage=page.pageNumber
+                    var currentPage=page.pageNumber;
                     var context="";
                     $.each(page.data,function(i,n){
-                        context+='  <div class="user-msg">'
-                        context+=' <div class="user-msg-header">'
-                        context+=' <span class="user-name">'+n.username+'</span>'
-                        context+=' <span class="user-delete">'
-                        context+=' <i class="iconfont icon-icon7" title="删除该用户" onclick="deleteUser('+n.id+',\''+n.username+'\')"></i>'
-                        context+='  </span>'
-                        context+=' </div>'
-                        context+=' <div class="user-detail">'
-                        context+=' <div class="user-detail-img">'
-                        context+=' <img src="'+n.iconpath+'">'
-                        context+=' </div>'
-                        context+=' <ul class="nav-user-msg">'
-                        context+=' <li class="list-user-msg">'
-                        context+=' <span>用&nbsp;&nbsp;户&nbsp;&nbsp;名 :&nbsp;</span>'
-                        context+=' <span>'+n.username+'</span> </li>'
-                        context+=' <li class="list-user-msg">'
-                        context+='     <span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;:&nbsp;</span>'
+                        context+='  <div class="user-msg">';
+                        context+=' <div class="user-msg-header">';
+                        context+=' <span class="user-name">'+n.username+'</span>';
+                        context+=' <span class="user-delete">';
+                        context+=' <i class="iconfont icon-icon7" title="删除该用户" onclick="deleteUser('+n.id+',\''+n.username+'\')"></i>';
+                        context+='  </span>';
+                        context+=' </div>';
+                        context+=' <div class="user-detail">';
+                        context+=' <div class="user-detail-img">';
+                        context+=' <img src="${pageContext.request.contextPath}'+n.iconpath+'">';
+                        context+=' </div>';
+                        context+=' <ul class="nav-user-msg">';
+                        context+=' <li class="list-user-msg">';
+                        context+=' <span>用&nbsp;&nbsp;户&nbsp;&nbsp;名 :&nbsp;</span>';
+                        context+=' <span>'+n.username+'</span> </li>';
+                        context+=' <li class="list-user-msg">';
+                        context+='     <span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;:&nbsp;</span>';
                         if(n.gender){
                             context+=' <span>女</span>'
                         }else{
                             context+=' <span>男</span>'
                         }
-                        context+=' </li>'
-                        context+=' <li class="list-user-msg">'
-                        context+='     <span>注册时间&nbsp;:&nbsp;</span>'
-                        context+=' <span>'+n.regtime+'</span>'
-                        context+=' </li>'
-                        context+=' <li class="list-user-msg">'
-                        context+='     <span>用户状态&nbsp;:&nbsp;</span>'
+                        context+=' </li>';
+                        context+=' <li class="list-user-msg">';
+                        context+='     <span>注册时间&nbsp;:&nbsp;</span>';
+                        context+=' <span>'+n.regtime+'</span>';
+                        context+=' </li>';
+                        context+=' <li class="list-user-msg">';
+                        context+='     <span>用户状态&nbsp;:&nbsp;</span>';
 
                         if(n.enabled){
                             context+='    <span class="user-state user-state-'+n.id+'" onclick="stateChange('+n.id+')"><span class="state-btn" ></span></span>'
@@ -130,11 +130,11 @@
                             context+='    <span class="user-state user-state-'+n.id+'" onclick="stateChange('+n.id+')" style="background-color: #d1d0cf"><span class="state-btn" style="margin-left: 2px"></span></span>'
                         }
                         context+='</li></ul> </div> </div>';
-                    })
+                    });
 
 
 
-                    var foot='<li><a href="javascript:void(0)" onclick="pageChange(1)">首页</a></li>'
+                    var foot='<li><a href="javascript:void(0)" onclick="pageChange(1)">首页</a></li>';
                     if(currentPage==1){
                         foot+='<li class="disabled"><a href="javascript:void(0)">上一页</a></li>'
                     }else{
@@ -149,22 +149,22 @@
                             foot+='<li><a href="javascript:void(0)" onclick="pageChange('+n2+')">'+n2+'</a></li>'
                         }
 
-                    })
+                    });
                     if(currentPage==page.totalPage){
                         foot+='<li class="disabled"><a href="javascript:void(0)">下一页</a></li>'
                     }else{
                         foot+='<li><a href="javascript:void(0)" onclick="pageChange('+(currentPage+1)+')">下一页</a></li>'
                     }
 
-                    $('.user-content').html(context)
-                    $(".pagination").html(foot)
+                    $('.user-content').html(context);
+                    $(".pagination").html(foot);
                     changeFlag=true;
                 }else{
-                    layer.msg("不存在当前查询的用户",{icon:5,time:2100})
+                    layer.msg("不存在当前查询的用户",{icon:5,time:2100});
                     //清空不存在的用户值
-                    myData.queryValue=""
+                    myData.queryValue="";
                     if(changeFlag==true && myData.pageNumber>1){
-                        pageChange(myData.pageNumber-1)
+                        pageChange(myData.pageNumber-1);
                         changeFlag=true;
                     }
                 }
@@ -182,7 +182,7 @@
             icon:3//按钮
         }, function(){
             // var load=layer.load(2,{offset:'auto'});
-            var load=layer.msg("正在删除数据",{icon:16,time:15055550})
+            var load=layer.msg("正在删除数据",{icon:16,time:15055550});
             $.ajax({
                 url:"${pageContext.request.contextPath}/manage/deleteUser",
                 type:"post",
@@ -193,7 +193,7 @@
                 success:function (result) {
                     layer.close(load);
                     if(result>0){
-                        pageChange(myData.pageNumber)
+                        pageChange(myData.pageNumber);
                         layer.msg("删除用户成功！",{icon:1,time:1500})
                     }else{
                         layer.msg("网络繁忙 ！请重试",{icon:2,time:1500})
@@ -215,7 +215,7 @@
         }*/
         changeFlag=false;
         myData.queryValue=searchValue;
-        console.log(searchValue)
+        console.log(searchValue);
         pageChange(1)
     }
 
@@ -223,18 +223,18 @@
     function stateChange(uid) {
         var userState = $(".user-state-"+uid);
         var stateBtn = $(".user-state-"+uid+" .state-btn");
-        let left = stateBtn.css("margin-left")
-        console.log(left)
+        let left = stateBtn.css("margin-left");
+        console.log(left);
         var load;
         var enabled=0;
         //2px处于禁用状态，24处于可用状态
         if (left=='2px') {
             //启用账号状态
-            enabled=1
+            enabled=1;
             load=layer.msg("正在修改数据",{icon:16,time:15055550})
         }else if (left='24px') {
             //禁用账号
-            enabled=0
+            enabled=0;
             // load=layer.load(2,{offset:'auto'})
            load=layer.msg("正在修改数据",{icon:16,time:15055550})
         }else{

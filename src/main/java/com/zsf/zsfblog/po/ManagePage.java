@@ -13,7 +13,7 @@ public class ManagePage {
     //显示条数
     private Integer pageSize;
     //当前页开始处
-    private Integer  pageStart;;
+    private Integer  pageStart;
     //数据
     private List<?> data;
     //显示的页码样式
